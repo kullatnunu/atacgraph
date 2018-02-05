@@ -1,3 +1,4 @@
+import setuptools
 from distutils.core import setup
 
 setup(
@@ -5,7 +6,7 @@ setup(
     packages = ['script'],
     scripts = ['atac_graph.py'],
     version = '1.0',
-    description = 'First version',
+    description = 'ATAC-seq pipeline',
     author = 'TimLiu',
     author_email = 't810308@gmail.com',
     url = 'https://github.com/kullatnunu/atacgraph',
