@@ -15,9 +15,18 @@ tstart = time.time()#time start
 
 #input_gene = sys.argv[1]
 #input_bam = sys.argv[2]
-#output = sys.argv[3]
-input_bam = "Ctrl_1.bam"
-input_gene = "genes.gtf"
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-p', '--promoter', type=int, default=2000)
+parser.add_argument('input_gene')
+parser.add_argument('input_bam')
+args = parser.parse_args()
+
+input_bam=args.input_bam
+input_gene=args.input_gene
+
+#input_bam = "SRR5829240_hq.bam"
+#input_gene = "at.gtf"
 
 print "ATAC-seq_Pipeline_START"
 
@@ -52,7 +61,26 @@ subprocess.call('''macs2 callpeak -t %s --nomodel --broad --shift -10 --extsize 
 subprocess.call('''macs2 callpeak -t %s --format BAMPE --broad -n %s'''%(input_bam+'_long.bam',input_bam+'_long_peak'), shell=True)
 subprocess.call('''macs2 callpeak -t %s --format BAMPE --broad -n %s'''%(input_bam+'_short.bam',input_bam+'_short_peak'), shell=True)	
 
+#making histograms
+subprocess.call('''samtools view %s | awk '{print$9}'>%s '''%(input_bam,input_bam+'_readlen'),shell=True)
+readlen = pd.read_csv(input_bam+'_readlen',header=None)
+readlen.columns=['readlen']
+readlen=readlen[readlen['readlen']>0]
+readlen=readlen.reset_index()
 
+
+plt.style.use('ggplot')
+fig=plt.figure()
+ax1=fig.add_subplot(1,1,1)
+n, bins, patches = ax1.hist(readlen['readlen'], bins=500, normed=False, color='orange')
+ax1.xaxis.set_ticks_position('bottom')
+ax1.yaxis.set_ticks_position('left')
+plt.xlabel('Read_length')
+plt.ylabel('Number_of_Reads')
+fig.suptitle('Histograms',fontsize=14, fontweight='bold')
+ax1.set_title('Frequency_Distributions')
+plt.savefig(input_bam+'_readlen.png',dpi=400,bbox_inches='tight')
+plt.close(fig)
 
 #annotation name
 gene = "gene_body"
@@ -122,10 +150,13 @@ gene_body.to_csv(input_gene+'.gtf'+'_gene_body_bed6.bed', sep='\t',index=False, 
 
 genome_bp=gene_body.groupby(['chr']).agg({'g_end':'max'}).reset_index()
 genome_bp = genome_bp['g_end'].sum()
+genome_bp=genome_bp*1.0
+
 
 #find promoter.bed
-gene_body['pro_str'] = np.where(gene_body.g_dir == '+', gene_body.g_str - 2000, gene_body.g_end - 0)
-gene_body['pro_end'] = np.where(gene_body.g_dir == '+', gene_body.g_str + 0, gene_body.g_end + 2000)
+
+gene_body['pro_str'] = np.where(gene_body.g_dir == '+', gene_body.g_str - args.promoter, gene_body.g_end - 0)
+gene_body['pro_end'] = np.where(gene_body.g_dir == '+', gene_body.g_str + 0, gene_body.g_end + args.promoter)
 num = gene_body._get_numeric_data()
 num[num<0]=0
 gene_promoter = gene_body.ix[:, ['chr','pro_str','pro_end','gene_id','g_score','g_dir']]
@@ -294,7 +325,7 @@ bin_size = int(10)
 c1_pe.str=c1_pe.str//bin_size*bin_size
 c1_pe.end=c1_pe.end//bin_size*bin_size
 c1_score=c1_pe.groupby(['chr','str','end']).count().reset_index()
-c1_score['chrname']=c1_score.chr+c1_score.str.map(str)
+c1_score['chrname']=c1_score.chr.map(str)+c1_score.str.map(str)
 c1_score['dir']='+'
 c1_score['thickstart']=c1_score.str
 c1_score['thickend']=c1_score.end
