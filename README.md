@@ -1,2 +1,2 @@
-# atacgraph
+# Atacgraph
 ATAC-seq pipeline
