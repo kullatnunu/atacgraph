@@ -1,3 +1,4 @@
+#! /usr/bin/python
 import pandas as pd
 import numpy as np
 import sys
@@ -13,9 +14,6 @@ import matplotlib.pyplot as plt
 
 tstart = time.time()#time start
 
-#input_gene = sys.argv[1]
-#input_bam = sys.argv[2]
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--promoter', type=int, default=2000)
 parser.add_argument('input_gene')
@@ -24,9 +22,6 @@ args = parser.parse_args()
 
 input_bam=args.input_bam
 input_gene=args.input_gene
-
-#input_bam = "SRR5829240_hq.bam"
-#input_gene = "at.gtf"
 
 print "ATAC-seq_Pipeline_START"
 
@@ -116,7 +111,8 @@ print "*--------------------------------*"
 print "|Extract UTR, exon, cds from gene|"
 print "*--------------------------------*"
 
-subprocess.call('''python extract_transcript_regions.py -i %s -o %s --gtf'''%(input_gene+'.gtf',input_gene+'.gtf'), shell=True)
+subprocess.call('''../atacgraph/python extract_transcript_regions.py -i %s -o %s --gtf'''%(input_gene+'.gtf',input_gene+'.gtf'), shell=True)
+
 print "*-------------------------------------*"
 print "|Convert this blockbed (bed12) to bed6|"
 print "*-------------------------------------*"
