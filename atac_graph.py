@@ -179,10 +179,6 @@ geneigr.to_csv(input_gene+'.gtf'+"_gene_igr_bed6.bed", sep="\t", index=False, he
 
 
 for i in annotation_name:
-#	gene_anootation_file = pd.read_csv(input_gene+'.gtf'+'_'+i+'_bed6.bed', header=None, sep="\t")
-#	gene_anootation_file.columns=['chr','g_str','g_end','gene_id','g_id','g_dir']
-#	gene_anootation_file=gene_anootation_file.drop_duplicates(subset=['g_str', 'g_end'], keep='first')
-#	gene_anootation_file.to_csv(input_gene+'.gtf'+'_'+i+'_bed6.bed', sep='\t',index=False, header=None)
 	subprocess.call('''bedtools sort -i %s|bedtools merge -c 4,5,6 -o collapse,collapse,collapse >%s '''%(input_gene+'.gtf'+'_'+i+'_bed6.bed',input_gene+'.gtf'+'_'+i+'_merge.bed'),shell=True)
 
 
@@ -252,16 +248,6 @@ def associate(inpeak):
 	s1_group=s1.groupby(['gene_id', 'chr', 'gbed_str', 'gbed_end', 'gene_dir']).agg({'Genebody':'sum', 'Promoter':'sum'}).reset_index().sort_values(["chr","gbed_str"])
 	s1_group.to_csv(inpeak+"_gene"+"_summary_table", sep='\t',index=False)
 
-#peak bed to bedgraph to bigWig and heatmap
-#def peak_bedgraph(peak):
-	#inpeak = pd.read_csv(peak, header=None, sep="\t")
-	#inpeak=inpeak.ix[:,0:2]
-	#inpeak[4]=1
-	#inpeak.to_csv(peak+'.bedGraph',index=None, header=None, sep="\t")
-	#subprocess.call('''bedGraphToBigWig %s https://genome.ucsc.edu/goldenpath/help/hg19.chrom.sizes  %s'''%(peak+'.bedGraph',peak+'.bw'),shell=True)
-	#subprocess.call('''computeMatrix scale-regions -S %s -R %s --missingDataAsZero -bs 10 -a 1000 -b 1000 -out %s --outFileNameMatrix %s'''%(peak+'.bw',input_gene+'.gtf'+'_gene_body_merge.bed',peak+'gene_body'+'.matrix.gz',peak+'gene_body'+'.matrix.txt'),shell=True)
-	#subprocess.call('''plotHeatmap -m %s -out %s --legendLocation none'''%(peak+'gene_body'+'.matrix.gz',peak+'gene_body_heatmap.png'),shell=True)
-	
 
 def coverage_heatmap(coverage):
 	subprocess.call('''computeMatrix scale-regions -S %s -R %s --missingDataAsZero -bs 10 -a 1000 -b 1000 -out %s --outFileNameMatrix %s'''%(coverage,input_gene+'.gtf'+'_gene_body_merge.bed',coverage+'gene_body'+'.matrix.gz',coverage+'gene_body'+'.matrix.txt'),shell=True)
@@ -273,7 +259,7 @@ print "|Making Summary Table and Peak Density Heatmap|"
 print "-----------------------------------------------"
 for i in peak_name:
 	summary_table = associate(i)
-	#peaktobedgraph=peak_bedgraph(i)
+
 
 for i in bam_coverage_name:
 	bamcoveragegraph=coverage_heatmap(i)
