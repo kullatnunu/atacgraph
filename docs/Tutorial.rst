@@ -7,6 +7,6 @@ Tutorial
 
 $ curl -O https://github.com/kullatnunu/atacgraph.git
 $ tar xvfz atacgraph.tar.gz
-cd methgo_demo/data
+$ cd methgo_demo/data
 
 2.Run atacgraph script
