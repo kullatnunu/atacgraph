@@ -1,4 +1,6 @@
-# Atacgraph
+Atacgraph
+=========
+
 ATAC-seq pipeline
 
 
