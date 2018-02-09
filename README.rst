@@ -35,7 +35,7 @@ Installation
   * `matplotlib <http://matplotlib.org/>`_
   * `pandas <http://matplotlib.org/>`_
   
-4. Add your MethGo path to the PATH environment variable.
+4. Add your AtacGraph path to the PATH environment variable.
 
 
 
