@@ -4,6 +4,7 @@ Atacgraph
 ATAC-seq pipeline
 
 
+
 Installation
 ============
 
@@ -35,6 +36,7 @@ Installation
   * `pandas <http://matplotlib.org/>`_
   
 4. Add your MethGo path to the PATH environment variable.
+
 
 
 Tutorial
