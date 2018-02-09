@@ -55,10 +55,11 @@ User's guide
 ============
   .. Note::
   Before input bam file, please remove mitochondria
+  Input bam file is input.bam, mitochrondria name is mito_name
   
   ::
   
-  $
+  $ samtools view -hq 10 input.bam| grep -v mito_name| samtools view -Sb - > output.bam
 
   Arguments
   ---------
