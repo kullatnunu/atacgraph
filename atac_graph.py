@@ -111,7 +111,7 @@ print "*--------------------------------*"
 print "|Extract UTR, exon, cds from gene|"
 print "*--------------------------------*"
 
-subprocess.call('''../ extract_transcript_regions.py -i %s -o %s --gtf'''%(input_gene+'.gtf',input_gene+'.gtf'), shell=True)
+subprocess.call('''../extract_transcript_regions.py -i %s -o %s --gtf'''%(input_gene+'.gtf',input_gene+'.gtf'), shell=True)
 
 print "*-------------------------------------*"
 print "|Convert this blockbed (bed12) to bed6|"
