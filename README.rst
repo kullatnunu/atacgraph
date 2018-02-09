@@ -36,7 +36,7 @@ Tutorial
   Demo file
   ---------
 
-  1. Into the atacgraph file and download the sample input file
+1. Into the atacgraph file and download the sample input file
 
   ::
 
@@ -45,7 +45,7 @@ Tutorial
   $ tar xvfz data.tar.gz
   $ cd data
 
-  2. Run atacgraph script
+2. Run atacgraph script
 
   ::
 
@@ -61,14 +61,14 @@ User's guide
   
   $ samtools view -hq 10 input.bam| grep -v mito_name| samtools view -Sb - > output.bam
 
-  Arguments
-  ---------
+Arguments
+---------
   -p, --promoter <INT>
   --------------------
   Size of promoter, default is 2,000
 
-  Input
-  -----
+Input
+-----
   gtf, gff
   --------
   Input gene annotation GTF or GFF file
