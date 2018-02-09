@@ -54,4 +54,14 @@ $ atac_graph.py genes_demo.gtf Ctrl_1_chr1.bam
 User's guide
 ============
 
+Input
+-----
+gtf, gff
+--------
+Input gene annotation gtf or gff file
 
+Arguments
+---------
+-p, --promoter <INT>
+--------------------
+Size of promoter, default is 2,000
