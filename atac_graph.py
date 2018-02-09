@@ -116,7 +116,10 @@ subprocess.call('''../extract_transcript_regions.py -i %s -o %s --gtf'''%(input_
 print "*-------------------------------------*"
 print "|Convert this blockbed (bed12) to bed6|"
 print "*-------------------------------------*"
-for i in annotation_name:
+
+ano_filename = [exon,intron,utr5,cds,utr3]
+
+for i in ano_filename:
 	subprocess.call('''cat %s | bed12ToBed6 -i stdin -n > %s'''%(input_gene+'.gtf'+'_'+i+'.bed',input_gene+'.gtf'+'_'+i+'_bed6.bed'),shell=True)
 
 
