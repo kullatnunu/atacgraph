@@ -127,6 +127,7 @@ for i in ano_filename:
 #find gene_body.bed
 genes = pd.read_csv(input_gene+'.gtf', header=None, sep="\t")
 genes.columns=['chr','unknow', 'exon', 'g_str', 'g_end', 'g_score', 'g_dir','.', 'gene_name']
+genes.chr=genes.chr.astype(str)
 genes=genes[genes.exon=='exon']
 gene_col=genes['gene_name'].str.split(';', expand=True)
 gene_col.columns=gene_col.ix[1,:]
@@ -166,23 +167,32 @@ gene_promoter.to_csv(input_gene+'.gtf'+"_gene_promoter_bed6.bed", sep='\t',index
 
 
 #find igr.bed
-gene_body['igr_str'] = gene_body['g_end'].shift(1).fillna(0).astype(int)+1
-gene_body['igr_end'] = gene_body['g_str']-1
-gene_body['igr_chr'] = gene_body['chr'].shift(1).fillna('chr1')
-igrcol = gene_body.ix[:,('igr_chr','g_str','igr_str','igr_end')]
-igrcol.columns = ['chr', 'g_str', 'igr_str', 'igr_end']
-genecol=gene_body.ix[:,['chr','g_str','g_end','gene_id','g_score','g_dir']]
-geneigr = pd.merge(genecol, igrcol, how='left', on=['chr', 'g_str'])
-geneigr.igr_str=geneigr.igr_str.fillna(0).astype(int)
-geneigr.igr_end=geneigr.igr_end.fillna(geneigr.g_str-1).astype(int)
-geneigr = geneigr.ix[:,('chr', 'igr_str','igr_end', 'gene_id','g_score', 'g_dir')]
-geneigr = geneigr[geneigr['igr_str']<geneigr['igr_end']]
-geneigr=geneigr.drop_duplicates(subset=['igr_str','igr_end'],keep='first')
-geneigr.to_csv(input_gene+'.gtf'+"_gene_igr_bed6.bed", sep="\t", index=False, header=None)
+#gene_body['igr_str'] = gene_body['g_end'].shift(1).fillna(0).astype(int)+1
+#gene_body['igr_end'] = gene_body['g_str']-1
+#gene_body['igr_chr'] = gene_body['chr'].shift(1).fillna('chr1')
+#igrcol = gene_body.ix[:,('igr_chr','g_str','igr_str','igr_end')]
+#igrcol.columns = ['chr', 'g_str', 'igr_str', 'igr_end']
+#genecol=gene_body.ix[:,['chr','g_str','g_end','gene_id','g_score','g_dir']]
+#geneigr = pd.merge(genecol, igrcol, how='left', on=['chr', 'g_str'])
+#geneigr.igr_str=geneigr.igr_str.fillna(0).astype(int)
+#geneigr.igr_end=geneigr.igr_end.fillna(geneigr.g_str-1).astype(int)
+#geneigr = geneigr.ix[:,('chr', 'igr_str','igr_end', 'gene_id','g_score', 'g_dir')]
+#geneigr = geneigr[geneigr['igr_str']<geneigr['igr_end']]
+#geneigr=geneigr.drop_duplicates(subset=['igr_str','igr_end'],keep='first')
+genome=gene_body.groupby(['chr']).agg({'g_end':'max'}).reset_index()
+genome.to_csv(input_gene+'.gtf'+"_genome.bed", sep="\t", index=False, header=None)
 
-
-for i in annotation_name:
+gbname=[promoter,gene,exon,intron,utr5,cds,utr3]
+for i in gbname:
 	subprocess.call('''bedtools sort -i %s|bedtools merge -c 4,5,6 -o collapse,collapse,collapse >%s '''%(input_gene+'.gtf'+'_'+i+'_bed6.bed',input_gene+'.gtf'+'_'+i+'_merge.bed'),shell=True)
+
+
+subprocess.call('''bedtools complement -i %s -g %s > %s '''%(input_gene+'.gtf'+'_'+'gene_body'+'_merge.bed',input_gene+'.gtf'+"_genome.bed", input_gene+'.gtf'+'_'+'gene_igr'+'.bed'),shell=True)
+geneigr = pd.read_csv(input_gene+'.gtf'+'_'+'gene_igr'+'.bed', header=None, sep="\t")
+geneigr['.'],geneigr['...'],geneigr['..']=['.','.','.']
+geneigr.to_csv(input_gene+'.gtf'+'_'+'gene_igr'+'_bed6.bed', header=None,index=False, sep="\t")
+subprocess.call('''bedtools sort -i %s|bedtools merge -c 4,5,6 -o collapse,collapse,collapse >%s '''%(input_gene+'.gtf'+'_'+'gene_igr'+'_bed6.bed',input_gene+'.gtf'+'_'+'gene_igr'+'_merge.bed'),shell=True)
+#geneigr.to_csv(input_gene+'.gtf'+"_gene_igr_bed6.bed", sep="\t", index=False, header=None)
 
 
 #peak bp count
