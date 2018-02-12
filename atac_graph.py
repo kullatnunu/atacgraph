@@ -74,6 +74,7 @@ plt.xlabel('Read_length')
 plt.ylabel('Number_of_Reads')
 fig.suptitle('Histograms',fontsize=14, fontweight='bold')
 ax1.set_title('Frequency_Distributions')
+plt.xlim((0,750))
 plt.savefig(input_bam+'_readlen.png',dpi=400,bbox_inches='tight')
 plt.close(fig)
 
