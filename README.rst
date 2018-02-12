@@ -1,9 +1,18 @@
+.. image:: https://img.shields.io/badge/python-2.7-blue.svg
+
 Atacgraph
 =========
 
-ATAC-seq pipeline
+ATAC-seq pipeline for making analysis graph
 
+AtacGraph will produce 6 analysis results:
 
+* Summary table
+* Histogram
+* Heatmap
+* Profile map
+* Fold enrichment graph
+* Junction bed
 
 Installation
 ============
