@@ -234,6 +234,7 @@ def associate(inpeak):
 	peak = pd.read_csv(inpeak, header=None, sep="\t").ix[:,0:5]
 	gene_body = pd.read_csv(input_gene+'.gtf'+'_gene_body_merge.bed', header=None, sep="\t")
 	peak.columns = ['chr', 'peak_str', 'peak_end', 'peak_name','peak_value','peak_dir']
+	peak.chr=peak.chr.astype(str)
 	gene_body.columns = ['chr', 'gbed_str', 'gbed_end', 'gene_id', 'gene_value', "gene_dir"]
 	gene_body['pro_str'] = np.where(gene_body.gene_dir == '+', gene_body.gbed_str -2000, gene_body.gbed_end -0)
 	gene_body['pro_end'] = np.where(gene_body.gene_dir == '+', gene_body.gbed_str +0, gene_body.gbed_end +2000)
