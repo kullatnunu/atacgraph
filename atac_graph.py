@@ -1,7 +1,6 @@
 #! /usr/bin/python
 import pandas as pd
 import numpy as np
-import sys
 import math
 import os
 import subprocess, sys
