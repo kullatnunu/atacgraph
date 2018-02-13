@@ -243,7 +243,7 @@ def associate(inpeak):
 	summary = combined[(combined.Promoter > 0) | (combined.Genebody > 0)]
 	s1 = summary.drop(summary.columns[6:13], axis = 1).drop(summary.columns[4], axis = 1)
 	s1_group=s1.groupby(['gene_id', 'chr', 'gbed_str', 'gbed_end', 'gene_dir']).agg({'Genebody':'sum', 'Promoter':'sum'}).reset_index().sort_values(["chr","gbed_str"])
-	s1_group.to_csv(inpeak+"_gene"+"_summary_table", sep='\t',index=False)
+	s1_group.to_csv(inpeak+"_gene"+"_summary_table.xls", sep='\t',index=False)
 
 
 def coverage_heatmap(coverage):
