@@ -11,7 +11,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-tstart = time.time()#time start
+#time start
+tstart = time.time()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--promoter', type=int, default=2000)
@@ -62,7 +63,6 @@ readlen.columns=['readlen']
 readlen=readlen[readlen['readlen']>0]
 readlen=readlen.reset_index()
 
-
 plt.style.use('ggplot')
 fig=plt.figure()
 ax1=fig.add_subplot(1,1,1)
@@ -71,10 +71,11 @@ ax1.xaxis.set_ticks_position('bottom')
 ax1.yaxis.set_ticks_position('left')
 plt.xlabel('Read_length')
 plt.ylabel('Number_of_Reads')
-fig.suptitle('Histograms',fontsize=14, fontweight='bold')
+fig.suptitle(input_bam,fontsize=14, fontweight='bold')
 ax1.set_title('Frequency_Distributions')
 plt.savefig(input_bam+'_readlen.png',dpi=400,bbox_inches='tight')
 plt.close(fig)
+
 
 #annotation name
 gene = "gene_body"
@@ -99,11 +100,9 @@ bam_coverage_name=[bam_coverage,long_bam_coverage,short_bam_coverage]
 
 
 #Making bam coverage
-
 subprocess.call('''bamCoverage -b %s -bs 10 --normalizeUsingRPKM --Offset 1 20 -o %s'''%(input_bam, input_bam+'_coverage.bw'),shell=True)
 subprocess.call('''bamCoverage -b %s -bs 10 --normalizeUsingRPKM -e -o %s'''%(input_bam+'_long.bam', input_bam+'_long_coverage.bw'),shell=True)
 subprocess.call('''bamCoverage -b %s -bs 10 --normalizeUsingRPKM -e -o %s'''%(input_bam+'_short.bam', input_bam+'_short_coverage.bw'),shell=True)
-
 
 
 print "*--------------------------------*"
@@ -120,7 +119,6 @@ ano_filename = [exon,intron,utr5,cds,utr3]
 
 for i in ano_filename:
 	subprocess.call('''cat %s | bed12ToBed6 -i stdin -n > %s'''%(input_gene+'.gtf'+'_'+i+'.bed',input_gene+'.gtf'+'_'+i+'_bed6.bed'),shell=True)
-
 
 
 #find gene_body.bed
@@ -146,14 +144,12 @@ gene_body=gene_body.drop_duplicates(subset=['g_str'],keep='last')
 gene_body = gene_body.ix[:,['chr', 'g_str', 'g_end', 'gene_id','g_score','g_dir']]
 gene_body=gene_body[~gene_body.gene_id.str.contains('MI')]
 gene_body.to_csv(input_gene+'.gtf'+'_gene_body_bed6.bed', sep='\t',index=False, header=None)
-
 genome_bp=gene_body.groupby(['chr']).agg({'g_end':'max'}).reset_index()
 genome_bp = genome_bp['g_end'].sum()
 genome_bp=genome_bp*1.0
 
 
 #find promoter.bed
-
 gene_body['pro_str'] = np.where(gene_body.g_dir == '+', gene_body.g_str - args.promoter, gene_body.g_end - 0)
 gene_body['pro_end'] = np.where(gene_body.g_dir == '+', gene_body.g_str + 0, gene_body.g_end + args.promoter)
 num = gene_body._get_numeric_data()
@@ -180,7 +176,6 @@ subprocess.call('''bedtools sort -i %s|bedtools merge -c 4,5,6 -o collapse,colla
 
 
 #peak bp count
-
 def peak_bp(peak):
 	peak = pd.read_csv(peak, header=None, sep="\t").ix[:,0:5]
 	peak.columns = ['chr', 'peak_str', 'peak_end', 'peak_id', 'peak_value', 'peak_dir']
@@ -201,7 +196,6 @@ def ano_bp(anno):
 	return ano_bp
 
 
-
 print "---------------------------------------"
 print "|Making annotation_peak_associate file|"
 print "---------------------------------------"
@@ -210,9 +204,6 @@ for i in annotation_name:
 	for j in peak_name:
 		subprocess.call('''bedtools intersect -nonamecheck -a %s -b %s -wo > %s'''%(input_gene+'.gtf'+'_'+i+'_merge.bed',j,j+'_'+i+'.txt'),shell=True)
 
-print "-------------------------------------"
-print "|Annotation_peak_associate file Done|"
-print "-------------------------------------"
 
 #annotation_peak bp count
 def annopeakbp(peak,anno):
@@ -223,7 +214,6 @@ def annopeakbp(peak,anno):
 
 
 #making Enrichment Graph
-
 def enrichment_num(peak,anno):
 	enrichment=math.log((annopeakbp(peak,anno)/peak_bp(peak))/(ano_bp(anno)/genome_bp),2)
 	return enrichment
@@ -251,13 +241,13 @@ def coverage_heatmap(coverage):
 	subprocess.call('''computeMatrix scale-regions -S %s -R %s --missingDataAsZero -bs 10 -a 1000 -b 1000 -out %s --outFileNameMatrix %s'''%(coverage,input_gene+'.gtf'+'_gene_body_merge.bed',coverage+'gene_body'+'.matrix.gz',coverage+'gene_body'+'.matrix.txt'),shell=True)
 	subprocess.call('''plotHeatmap -m %s -out %s --legendLocation none'''%(coverage+'gene_body'+'.matrix.gz',coverage+'gene_body_heatmap.png'),shell=True)
 
+
 #making table and peak_bed to bedgraph
 print "-----------------------------------------------"
 print "|Making Summary Table and Peak Density Heatmap|"
 print "-----------------------------------------------"
 for i in peak_name:
 	summary_table = associate(i)
-
 
 for i in bam_coverage_name:
 	bamcoveragegraph=coverage_heatmap(i)
@@ -267,8 +257,9 @@ print "| Summary Table and Peak Density Heatmap Done|"
 print "*--------------------------------------------*"
 
 
-
-print "\n""Making plot""\n"
+print "*-----------*"
+print "|Making plot|"
+print "*-----------*"
 plt.style.use('ggplot')
 annotationname = ['Promoter','Genebody','Exon','Intron','5UTR','CDS','3UTR','IGR']
 annotationname_index = range(len(annotationname))
@@ -323,12 +314,3 @@ c1_junction_pd.to_csv(input_bam+'_junction.bed',mode='a', header=None, index=Non
 tend = time.time()#time stop
 
 print "---------- %s seconds ----------" %(tend-tstart)
-
-
-
-
-
-
-
-
-
