@@ -270,9 +270,11 @@ for i in peak_name:
 	fold_enrich = enrichment_data
 	fig = plt.figure()
 	ax1 = fig.add_subplot(1,1,1)
-	ax1.bar(annotationname_index, fold_enrich, align='center',color='darkblue')
+	colors=['firebrick','darkblue','gold','darkviolet','darkgreen','darkcyan','c','purple']
+	ax1.bar(annotationname_index, fold_enrich, align='center',color=colors)
 	ax1.xaxis.set_ticks_position('bottom')
 	ax1.yaxis.set_ticks_position('left')
+	plt.ylim(ymin=-2,ymax=6)
 	plt.xticks(annotationname_index, annotationname, fontsize='small')
 	plt.ylabel("Fold Enrichment (log2)")
 	plt.title(i+'_Fold_Enrichment')
