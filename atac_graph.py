@@ -8,6 +8,7 @@ import glob
 import time
 import argparse
 import matplotlib
+import csv
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
@@ -104,12 +105,16 @@ subprocess.call('''bamCoverage -b %s -bs 10 --normalizeUsingRPKM --Offset 1 20 -
 subprocess.call('''bamCoverage -b %s -bs 10 --normalizeUsingRPKM -e -o %s'''%(input_bam+'_long.bam', input_bam+'_long_coverage.bw'),shell=True)
 subprocess.call('''bamCoverage -b %s -bs 10 --normalizeUsingRPKM -e -o %s'''%(input_bam+'_short.bam', input_bam+'_short_coverage.bw'),shell=True)
 
+#clean gtf
+gene_gtf=pd.read_csv(input_gene+'.gtf', header=None, sep="\t")
+gene_gtf=gene_gtf[gene_gtf[4]>gene_gtf[3]]
+gene_gtf.to_csv(input_gene+'gene.gtf',sep="\t", index=False, header=None, quoting=csv.QUOTE_NONE)
 
 print "*--------------------------------*"
 print "|Extract UTR, exon, cds from gene|"
 print "*--------------------------------*"
 
-subprocess.call('''../extract_transcript_regions.py -i %s -o %s --gtf'''%(input_gene+'.gtf',input_gene+'.gtf'), shell=True)
+subprocess.call('''../extract_transcript_regions.py -i %s -o %s --gtf'''%(input_gene+'gene.gtf',input_gene+'.gtf'), shell=True)
 
 print "*-------------------------------------*"
 print "|Convert this blockbed (bed12) to bed6|"
@@ -122,7 +127,7 @@ for i in ano_filename:
 
 
 #find gene_body.bed
-genes = pd.read_csv(input_gene+'.gtf', header=None, sep="\t")
+genes = pd.read_csv(input_gene+'gene.gtf', header=None, sep="\t")
 genes.columns=['chr','unknow', 'exon', 'g_str', 'g_end', 'g_score', 'g_dir','.', 'gene_name']
 genes.chr=genes.chr.astype(str)
 genes=genes[genes.exon=='exon']
@@ -183,7 +188,6 @@ def peak_bp(peak):
 	peak['bp'] = (peak.peak_end - peak.peak_str)
 	peak_bp = peak.bp.sum()
 	return peak_bp
-
 
 
 #annotation bp count
