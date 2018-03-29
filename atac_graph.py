@@ -257,6 +257,7 @@ print "| Summary Table and Peak Density Heatmap Done|"
 print "*--------------------------------------------*"
 
 
+#making fold enrichment graph
 print "*-----------*"
 print "|Making plot|"
 print "*-----------*"
@@ -280,7 +281,8 @@ for i in peak_name:
 	plt.title(i+'_Fold_Enrichment')
 	plt.savefig(i+'_Fold_Enrichment'+'.png',dpi=400,bbox_inches='tight')
 	plt.close(fig)
-
+	fe_table=pd.DataFrame([fold_enrich],columns=annotationname)
+	fe_table.to_csv(i+'_Fole_Enrichment_Table', index=None, sep="\t")
 
 #Making tophat junction for IGV
 subprocess.call('''samtools view %s|awk '{if ($7 == "=" && $9>0){print $1"\t"$3"\t"$4"\t"$7"\t"$8"\t"$9}} ' >%s'''%(input_bam,input_bam+'paired'), shell="True")
