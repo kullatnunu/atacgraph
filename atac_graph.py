@@ -132,7 +132,7 @@ genes.columns=['chr','unknow', 'exon', 'g_str', 'g_end', 'g_score', 'g_dir','.',
 genes.chr=genes.chr.astype(str)
 genes=genes[genes.exon=='exon']
 gene_col=genes['gene_name'].str.split(';', expand=True)
-gene_col.columns=gene_col.ix[1,:]
+gene_col.columns=gene_col.iloc[1,:]
 gene_id = gene_col.filter(regex='gene_id')
 gene_id = gene_id.ix[:,0].str.split(' ', expand=True)
 gene_id[2] = gene_id[2].map(lambda x: x.lstrip('"').rstrip('"'))
@@ -204,10 +204,12 @@ print "---------------------------------------"
 print "|Making annotation_peak_associate file|"
 print "---------------------------------------"
 
+file_exist=[]
 for i in annotation_name:
 	for j in peak_name:
 		subprocess.call('''bedtools intersect -nonamecheck -a %s -b %s -wo > %s'''%(input_gene+'.gtf'+'_'+i+'_merge.bed',j,j+'_'+i+'.txt'),shell=True)
-
+	if os.stat( j+'_'+i+'.txt' ).st_size == 0 :
+		file_exist.append(1)
 
 #annotation_peak bp count
 def annopeakbp(peak,anno):
@@ -219,8 +221,11 @@ def annopeakbp(peak,anno):
 
 #making Enrichment Graph
 def enrichment_num(peak,anno):
-	enrichment=math.log((annopeakbp(peak,anno)/peak_bp(peak))/(ano_bp(anno)/genome_bp),2)
-	return enrichment
+	try:
+		enrichment=math.log((annopeakbp(peak,anno)/peak_bp(peak))/(ano_bp(anno)/genome_bp),2)
+		return enrichment
+	except pd.errors.EmptyDataError:
+		return 0
 
 
 #making associate table
@@ -265,9 +270,12 @@ print "*--------------------------------------------*"
 print "*-----------*"
 print "|Making plot|"
 print "*-----------*"
+
+
 plt.style.use('ggplot')
 annotationname = ['Promoter','Genebody','Exon','Intron','5UTR','CDS','3UTR','IGR']
 annotationname_index = range(len(annotationname))
+
 for i in peak_name:
 	enrichment_data = []
 	for j in annotation_name:
@@ -287,6 +295,7 @@ for i in peak_name:
 	plt.close(fig)
 	fe_table=pd.DataFrame([fold_enrich],columns=annotationname)
 	fe_table.to_csv(i+'_Fole_Enrichment_Table', index=None, sep="\t")
+
 
 #Making tophat junction for IGV
 subprocess.call('''samtools view %s|awk '{if ($7 == "=" && $9>0){print $1"\t"$3"\t"$4"\t"$7"\t"$8"\t"$9}} ' >%s'''%(input_bam,input_bam+'paired'), shell="True")
