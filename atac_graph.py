@@ -21,11 +21,45 @@ parser.add_argument('input_gene')
 parser.add_argument('input_bam')
 args = parser.parse_args()
 
-input_bam=args.input_bam
+origin_bam=args.input_bam
+#ask for removing mitochondria
+rm_mt = raw_input('Removing mitochondria? (y/n): ')
+if rm_mt == 'y':
+	mt_name = raw_input('Enter mitochondria name: ')
+	subprocess.call('''samtools view -hq 10 %s| grep -v %s| samtools view -Sb - > %s'''%(origin_bam,mt_name,origin_bam+'_hq.bam'), shell=True)
+	print "ATAC-seq_Pipeline_START"
+
+else :
+	subprocess.call('''samtools view -hq 10 %s| samtools view -Sb - > %s'''%(origin_bam,origin_bam+'_hq.bam'), shell=True)
+	print "ATAC-seq_Pipeline_START"  
+
+input_bam=origin_bam+'_hq.bam'
 input_gene=args.input_gene
 
-print "ATAC-seq_Pipeline_START"
+#calculate mitochondria remove%
+subprocess.call('samtools view -H %s > %s'%(input_bam,input_bam+'_header.sam'), shell=True)
+c=pd.read_csv(input_bam+'_header.sam', header=None)
+c=c[c[0].str.startswith('@SQ')]
+c=c[0].str.split(':', expand=True)
+c.columns=['@','chr','head']
+c['head']=c['head'].astype(int)
+c.chr=c.chr.str.rstrip('\tLN')
+ 
+subprocess.call('''samtools view %s | awk '{print$3}'>%s '''%(input_bam,input_bam+'_chr'),shell=True)
+a = pd.read_csv(input_bam+'_chr',header=None)
+a.columns=['chr']
+a['chr']=a['chr'].astype(str)
+b=a.groupby(['chr']).size().reset_index(name='read')
+ 
+mtn=pd.merge(c,b, on='chr')
+mtn['head']=mtn['head'].astype(int)
+mtn['ratio']=mtn['read']/mtn['head']
+mtn['readper']=mtn['read']/mtn['read'].sum()
+ 
+mtn=mtn.sort_values(['ratio'],ascending=False)
 
+
+#clean bam files
 subprocess.call('''samtools index %s'''%(input_bam),shell=True)
 
 if glob.glob(input_gene+'.gtf'):
@@ -329,5 +363,5 @@ c1_junction_pd = c1_score.ix[:,('chr','str','end','chrname','name','dir','thicks
 c1_junction_pd.to_csv(input_bam+'_junction.bed',mode='a', header=None, index=None, sep="\t")
 
 tend = time.time()#time stop
-
+print mtn.head(10)
 print "---------- %s seconds ----------" %(tend-tstart)
