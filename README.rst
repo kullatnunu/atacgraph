@@ -1,11 +1,11 @@
 .. image:: https://img.shields.io/badge/python-2.7-blue.svg
 
-Atacgraph
+ATAC-graph
 =========
 
 ATAC-seq pipeline for making analysis graph
 
-AtacGraph will produce 6 analysis results:
+ATAC-graph will produce 6 analysis results:
 
 * Summary table
 * Histogram
@@ -36,7 +36,7 @@ Installation
   * `matplotlib <http://matplotlib.org/>`_
   * `pandas <http://matplotlib.org/>`_
   
-3. Add your AtacGraph path to the PATH.
+3. Add your ATAC-graph path to the PATH.
 
 
 
