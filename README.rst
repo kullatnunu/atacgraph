@@ -41,6 +41,11 @@ Installation
   
 2. Add your ATAC-graph path to the PATH.
 
+   vi ~/.bash_profile
+   
+   Add your MethGo path to the PATH environment variable.
+   PATH=$PATH:/work1/home/ritalu/atacgraph/
+
 
 User's guide
 ============
