@@ -14,6 +14,11 @@ ATAC-graph will produce 6 analysis results:
 * Fold enrichment graph
 * Visualization of ATAC fragments IGV
 
+ATAC-graph Pipeline
+=========
+
+.. image:: https://github.com/RitataLU/atacgraph/blob/master/figure1.png
+
 System Requirement
 ==================
 
