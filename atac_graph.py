@@ -37,14 +37,17 @@ if rm_mt == 'y':
 	b=a.groupby(['chr']).size().reset_index(name='read')
 	b_sum = b['read'].sum().astype(float)
 	mt_num = b[b.chr == mt_name]
-	mt_num = mt_num.values[0][1]
-	rmmt_ratio=(b_sum-mt_num)/b_sum
-	rmmt_ratio = (rmmt_ratio*100)
-	print "Original gene number: %.0f"%(b_sum)
-	print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-mt_num),rmmt_ratio,"%")
-	print"----------------------------------------------------"
+	if mt_num.empty :
+		print "Mt name not found."
+	else:
+		mt_num = mt_num.values[0][1]
+		rmmt_ratio=(b_sum-mt_num)/b_sum
+		rmmt_ratio = (rmmt_ratio*100)
+		print "Original gene number: %.0f"%(b_sum)
+		print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-mt_num),rmmt_ratio,"%")
+		print"----------------------------------------------------"
 
-	subprocess.call('''samtools view -hq 10 %s| grep -v %s| samtools view -Sb - > %s'''%(origin_bam,mt_name,origin_bam+'_hq.bam'), shell=True)
+		subprocess.call('''samtools view -hq 10 %s| grep -v %s| samtools view -Sb - > %s'''%(origin_bam,mt_name,origin_bam+'_hq.bam'), shell=True)
 	
 	# subprocess.call('''samtools view %s | awk '{print$3}'>%s '''%(origin_bam+'_hq.bam',origin_bam+'_hq.bam'+'_chr'),shell=True)
 	# c = pd.read_csv(origin_bam+'_hq.bam'+'_chr',header=None)
@@ -52,7 +55,7 @@ if rm_mt == 'y':
 	# c['chr']=c['chr'].astype(str)
 	# d=c.groupby(['chr']).size().reset_index(name='read')
 
-	print "ATAC-seq_Pipeline_START"
+		print "ATAC-seq_Pipeline_START"
 
 else :
 	subprocess.call('''samtools view -hq 10 %s| samtools view -Sb - > %s'''%(origin_bam,origin_bam+'_hq.bam'), shell=True)
@@ -409,7 +412,7 @@ subprocess.call('''rm *bed6*|rm *3utr.bed|rm *5utr.bed|rm *_start.bed|rm *_cds.b
 
 tend = time.time()#time stop
 
-if rm_mt == 'y':
+if rm_mt == 'y' and not mt_num.empty:
 	print "Original gene number: %.0f"%(b_sum)
 	print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-mt_num),rmmt_ratio,"%")	
 	print " "
