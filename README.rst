@@ -7,11 +7,11 @@ ATAC-seq pipeline for making analysis graph
 
 ATAC-graph will produce 6 analysis results:
 
-* Summary table
-* Histogram
-* Heatmap
-* Profile map
-* Fold enrichment graph
+* ATAC-seq read length distribution
+* Summary table of ATAC-seq peak abundance
+* Fold enrichment analysis of chromatin accessibility
+* Heatmap depicting accessibility for gene
+* Profile map of accessibility for genes
 * Visualization of ATAC fragments IGV
 
 ATAC-graph Pipeline
