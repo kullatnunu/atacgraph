@@ -57,6 +57,7 @@ Installation
    ::
    
    $ PATH=$PATH:(put your ATAC-graph file path here)
+   $ source ~/.bash_profile
 
 
 User's guide
