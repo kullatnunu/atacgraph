@@ -374,7 +374,7 @@ for i in peak_name:
 	plt.savefig(i+'_Fold_Enrichment'+'.png',dpi=400,bbox_inches='tight')
 	plt.close(fig)
 	fe_table=pd.DataFrame([fold_enrich],columns=annotationname)
-	fe_table.to_csv(i+'_Fole_Enrichment_Table', index=None, sep="\t")
+	fe_table.to_csv(i+'_Fold_Enrichment_Table', index=None, sep="\t")
 
 
 #Making tophat junction for IGV
