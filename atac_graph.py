@@ -408,7 +408,7 @@ c1_score['block_location']=c1_score['zero'].map(str)+","+c1_score['location'].ma
 c1_junction_pd = c1_score.ix[:,('chr','str','end','chrname','name','dir','thickstart','thickend','rgb','block_count','block_size','block_location')]
 c1_junction_pd.to_csv(input_bam+'_junction.bed',mode='a', header=None, index=None, sep="\t")
 
-subprocess.call('''rm *bed6*|rm *3utr.bed|rm *5utr.bed|rm *_start.bed|rm *_cds.bed|rm *_codingexons.bed|rm *_codingintrons.bed|rm *_exons.bed|rm *_igr.bed|rm *_genome.bed|rm *_introns.bed|rm *_noncodingexons.bed|rm *_noncodingintrons.bed|rm *bam.bai ''',shell=True)
+subprocess.call('''rm *bed6*|rm *3utr.bed|rm *5utr.bed|rm *_start.bed|rm *_cds.bed|rm *_codingexons.bed|rm *_codingintrons.bed|rm *_exons.bed|rm *_igr.bed|rm *_genome.bed|rm *_introns.bed|rm *_noncodingexons.bed|rm *_noncodingintrons.bed|rm *bam.bai|rm *sam|rm *bam_chr ''',shell=True)
 
 tend = time.time()#time stop
 
