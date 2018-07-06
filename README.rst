@@ -52,7 +52,7 @@ Installation
   
    $ vi ~/.bash_profile
    
-   (2) Add your MethGo path to the PATH environment variable.
+   (2) Add your ATAC-graph path to the PATH environment variable.
   
    ::
    
@@ -63,12 +63,11 @@ Installation
 User's guide
 ============
   .. Note::
-  * Before input bam file, please remove mitochondria
   * Input bam file is input.bam, mitochrondria name is mito_name
   
   ::
   
-  $ samtools view -hq 10 input.bam| grep -v mito_name| samtools view -Sb - > output.bam
+
 
 Arguments
 ---------
@@ -80,10 +79,12 @@ Input
 -----
 gtf, gff
 --------
+  
   Input gene annotation GTF or GFF file
 
 bam
 ---
+  
   Input atac-seq bam file
 
 
