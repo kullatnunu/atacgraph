@@ -62,12 +62,25 @@ Installation
 
 Running ATAC-graph
 ==================
-  .. Note::
-  * Input bam file is input.bam, mitochrondria name is mito_name
-  
-  ::
-  
 
+Running atacgraph.py
+--------------------
+Usage:
+  
+::
+
+$ python atacgraph.py input_gtf_file input_bam_file
+Usage: python atacgraph.py [input_gtf_file] [input_bam_file] [options]  
+
+> Removing mitochondria? (y/n): 
+
+  Enter "y" or "n" to remove or not remove the mitochondria. 
+
+>Enter mitochondria name:
+
+  Enter the mitochondria name that you want to remove.
+
+  ex:"chrM"
 
 Arguments
 ---------
