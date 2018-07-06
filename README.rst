@@ -60,8 +60,8 @@ Installation
    $ source ~/.bash_profile
 
 
-R
-============
+Running ATAC-graph
+==================
   .. Note::
   * Input bam file is input.bam, mitochrondria name is mito_name
   
