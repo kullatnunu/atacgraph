@@ -60,7 +60,7 @@ Installation
    $ source ~/.bash_profile
 
 
-User's guide
+R
 ============
   .. Note::
   * Input bam file is input.bam, mitochrondria name is mito_name
