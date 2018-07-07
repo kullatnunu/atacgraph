@@ -24,10 +24,19 @@ System Requirement
 
 * Python 2.7
 
-.. Note::
-    AtacGraph needs `SAMtools <http://www.htslib.org/>`_ , `deepTools <https://deeptools.readthedocs.org>`_ and
-    `BEDtools <http://bedtools.readthedocs.org/>`_ to run the script, we will need to install them on your server.
+* `SAMtools <http://www.htslib.org/>`_ 
+* `deepTools <https://deeptools.readthedocs.org>`_
+* `BEDtools <http://bedtools.readthedocs.org/>`_ 
 
+* Python Modules 'Numpy', 'pandas' and 'Metplotlib'. To install the packages, use the following commands on an UNIX terminal:
+  
+  ::
+
+  $ pip install numpy
+  $ pip install pandas
+  $ pip install matplolib
+  
+  
 Installation
 ============
 
@@ -38,26 +47,22 @@ Installation
   $ git clone https://github.com/kullatnunu/atacgraph.git
   $ pip install -r atacgraph/base.txt
 
-  pip will install the following packages:
-
-  * `NumPy <http://www.numpy.org/>`_
-  * `matplotlib <http://matplotlib.org/>`_
-  * `pandas <http://matplotlib.org/>`_
   
 2. Add your ATAC-graph path to the PATH.
 
-   (1) Enter your bash profile
-   
+   (1) Edit bash profile
+  
    ::
   
    $ vi ~/.bash_profile
    
-   (2) Add your ATAC-graph path to the PATH environment variable.
-  
+   (2) Add ATAC-graph path to the PATH environment variable.
+ 
    ::
-   
-   $ PATH=$PATH:(put your ATAC-graph file path here)
+  
+   $ PATH=$PATH:(ATAC-graph file path)
    $ source ~/.bash_profile
+   
 
 
 Running ATAC-graph
@@ -76,7 +81,7 @@ Usage: python atacgraph.py [input_gtf_file] [input_bam_file] [options]
 
   Enter "y" or "n" to remove or not remove the mitochondria. 
 
->Enter mitochondria name:
+> Enter mitochondria name:
 
   Enter the mitochondria name that you want to remove.
 
@@ -86,27 +91,24 @@ Arguments
 ---------
 -p, --promoter <INT>
 --------------------
-  Size of promoter, default is 2,000
+  Size of promoter, default is 2,000 bp before transcription start site
 
 Input
 -----
-gtf, gff
---------
+1. gene annotation
+-----
+  gene annotation in gtf or gff
   
-  Input gene annotation GTF or GFF file
-
-bam
----
-  
-  Input atac-seq bam file
-
+2. bam
+-----
+atac-seq bam file after mapping
 
 Tutorial
 ========
 Demo file
 ---------
 
-1. Into the atacgraph file and download the sample input file
+1. Download the input sample in the atacgraph folder
 
   ::
 
@@ -119,5 +121,17 @@ Demo file
 
   ::
 
-  $ atac_graph.py genes_demo.gtf Ctrl_1_chr1.bam
+  $ atac_graph.py genes_demo.gtf Ctrl_1_chr1.bam [-p 2000]
+  
+3. Output
+
+  ::
+  
+  ATAC-seq read length distribution
+  Summary table of ATAC-seq peak abundance
+  Fold enrichment analysis of chromatin accessibility
+  Heatmap depicting accessibility for gene
+  Profile map of accessibility for genes
+  Visualization of ATAC fragments IGV
+  
 
