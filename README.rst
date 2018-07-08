@@ -125,7 +125,7 @@ Demo file
   
 3. Output
 
-  ::
+  
   
    ATAC-seq read length distribution
    
