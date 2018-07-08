@@ -22,6 +22,8 @@ Run demo
   
    ATAC-seq read length distribution
    
+   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/Picture1.jpg
+   
    .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_readlen.png
 
    
