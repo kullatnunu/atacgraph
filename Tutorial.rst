@@ -1,6 +1,6 @@
 Tutorial
 ========
-Demo file
+Run demo 
 ---------
 
 1. Download the input sample in the atacgraph folder
