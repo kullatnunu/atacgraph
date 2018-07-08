@@ -101,7 +101,7 @@ Input
   
 2. bam
 -----
-atac-seq bam file after mapping
+  atac-seq bam file after mapping
 
 Tutorial
 ========
@@ -127,11 +127,16 @@ Demo file
 
   ::
   
-  ATAC-seq read length distribution
-  Summary table of ATAC-seq peak abundance
-  Fold enrichment analysis of chromatin accessibility
-  Heatmap depicting accessibility for gene
-  Profile map of accessibility for genes
-  Visualization of ATAC fragments IGV
+   ATAC-seq read length distribution
+   
+   Summary table of ATAC-seq peak abundance
+   
+   Fold enrichment analysis of chromatin accessibility
+   
+   Heatmap depicting accessibility for gene
+   
+   Profile map of accessibility for genes
+   
+   Visualization of ATAC fragments IGV
   
 
