@@ -68,7 +68,7 @@ Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_5utr.txt	               The in
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_cds.txt	                 The intersection site between CDS and peaks
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_exons.txt	               The intersection site between exon and peaks
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_body.txt	           The intersection site between genebody and peaks
-Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_igr.txt	           The intersection site between igr and peaks
+Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_igr.txt	           The intersection site between IGR and peaks
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_promoter.txt	       The intersection site between promoter and peaks
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_introns.txt	             The intersection site between intron and peaks
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_summary_table.xls	 The number of peaks in promoter and genebody
