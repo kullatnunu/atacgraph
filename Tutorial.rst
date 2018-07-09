@@ -43,7 +43,7 @@ Run demo
 
    *  **Heatmap depicting accessibility for gene & Profile map of accessibility for genes**
    
-   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_readlen.jpg
+   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_coverage.bwgene_body_heatmap.jpg
    
    
    
