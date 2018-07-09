@@ -21,14 +21,14 @@ Run demo
 3. Output
   
    * ATAC-seq read length distribution
-  
-   
+  ---------
    .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_readlen.jpg
    
    
    * Summary table of ATAC-seq peak abundance
     
      Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_summary_table.xls
+  
   
   
    * Fold enrichment analysis of chromatin accessibility
