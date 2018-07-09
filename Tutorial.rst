@@ -26,15 +26,19 @@ Run demo
    
     
     
+    
    * **Summary table of ATAC-seq peak abundance** (The number of peaks in promoter and genebody)
     
      Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_summary_table.xls
   
   
  
+ 
    * **Fold enrichment analysis of chromatin accessibility**
    
    .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_Fold_Enrichment.jpg
+
+
 
 
    *  **Heatmap depicting accessibility for gene & Profile map of accessibility for genes**
@@ -42,16 +46,23 @@ Run demo
    .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_readlen.jpg
    
    
+   
+   
    *  **Visualization of ATAC fragments IGV**
      
-   Ctrl_1_chr1.bam_hq.bam_junction.bed
+      Ctrl_1_chr1.bam_hq.bam_junction.bed
      
      
    * **other files**
      
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+=====  =====  ====== 
+   Inputs     Output 
+------------  ------ 
+  A      B    A or B 
+=====  =====  ====== 
+False  False  False 
+True   False  True 
+False  True   True 
+True   True   True 
+=====  =====  ======
 
