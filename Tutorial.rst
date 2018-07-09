@@ -20,23 +20,22 @@ Run demo
   
 3. Output
   
-   ATAC-seq read length distribution
+   * ATAC-seq read length distribution
    
-   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/Picture1.jpg
+   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_readlen.jpg
    
-   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_readlen.png
+   
+   * Summary table of ATAC-seq peak abundance
+   
+     Ctrl_1_chr1.bam_hq.bam_junction.bed 
+  
+   * Fold enrichment analysis of chromatin accessibility
+   
+   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_Fold_Enrichment.jpg
 
+   * Heatmap depicting accessibility for gene & Profile map of accessibility for genes
    
-   Summary table of ATAC-seq peak abundance
-   
-   
-   Fold enrichment analysis of chromatin accessibility
-   
-   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_Fold_Enrichment.png
-
-   Heatmap depicting accessibility for gene & Profile map of accessibility for genes
-   
-   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_coverage.bwgene_body_heatmap.png
+   .. image:: https://github.com/kullatnunu/atacgraph/blob/master/github/Ctrl_1_chr1.bam_hq.bam_readlen.jpg
    
    Visualization of ATAC fragments IGV
   
