@@ -107,6 +107,6 @@ Input
 Link
 ====
 
-`Tutorial <https://github.com/kullatnunu/atacgraph/blob/master/Tutorial.rst/>`_ 
----------
+*`Tutorial <https://github.com/kullatnunu/atacgraph/blob/master/Tutorial.rst/>`_ 
+
 
