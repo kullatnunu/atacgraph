@@ -28,6 +28,7 @@ System Requirement
 * `deepTools <https://deeptools.readthedocs.org>`_
 * `BEDtools <http://bedtools.readthedocs.org/>`_ 
 
+
 * Python Modules 'Numpy', 'pandas' and 'Metplotlib'. To install the packages, use the following commands on an UNIX terminal:
   
   ::
@@ -102,4 +103,8 @@ Input
 2. bam
 -----
   atac-seq bam file after mapping
+  
+
+`Tutorial <https://github.com/kullatnunu/atacgraph/blob/master/Tutorial.rst/>`_ 
+=========
 
