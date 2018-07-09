@@ -70,8 +70,8 @@ Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_exons.txt	               The i
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_body.txt	           The intersection site between genebody and peaks
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_igr.txt	           The intersection site between igr and peaks
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_promoter.txt	       The intersection site between promoter and peaks
-Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_summary_table.xls	 The number of peaks in promoter and genebody
 Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_introns.txt	             The intersection site between intron and peaks
+Ctrl_1_chr1.bam_hq.bam_integ_peak_peaks.broadPeak_gene_summary_table.xls	 The number of peaks in promoter and genebody
 Ctrl_1_chr1.bam_hq.bam_readlen	                                           The number of ATAC-seq read length distribution
 genes_demo.gtf.gtf_3utr_merge.bed	                                         The sites of 3UTR 
 genes_demo.gtf.gtf_5utr_merge.bed	                                         The sites of 5UTR 
