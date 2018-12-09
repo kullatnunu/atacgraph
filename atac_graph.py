@@ -1,6 +1,7 @@
 #! /usr/bin/python
 import pandas as pd
 import numpy as np
+import sys
 import math
 import os
 import subprocess, sys
@@ -23,12 +24,13 @@ parser.add_argument('input_bam')
 args = parser.parse_args()
 
 origin_bam=args.input_bam
-#ask for removing mitochondria
-rm_mt = raw_input('Removing mitochondria? (y/n): ')
 
+#ask for removing mitochondria
+rm_mt = raw_input('Removing Mitochondria? (y/n): ')
+rm_cp = raw_input('Removing Chlorophyll? (y/n): ')
 
 if rm_mt == 'y':
-	mt_name = raw_input('Enter mitochondria name: ')
+	mt_name = raw_input('Enter Mitochondria name: ')
 
 	subprocess.call('''samtools view %s | awk '{print$3}'>%s '''%(origin_bam,origin_bam+'_chr'),shell=True)
 	a = pd.read_csv(origin_bam+'_chr',header=None)
@@ -38,7 +40,7 @@ if rm_mt == 'y':
 	b_sum = b['read'].sum().astype(float)
 	mt_num = b[b.chr == mt_name]
 	if mt_num.empty :
-		print "Mt name not found."
+		sys.exit("Mitochondria name not found.") 
 	else:
 		mt_num = mt_num.values[0][1]
 		rmmt_ratio=(b_sum-mt_num)/b_sum
@@ -48,12 +50,63 @@ if rm_mt == 'y':
 		print"----------------------------------------------------"
 
 		subprocess.call('''samtools view -hq 10 %s| grep -v %s| samtools view -Sb - > %s'''%(origin_bam,mt_name,origin_bam+'_hq.bam'), shell=True)
-	
-	# subprocess.call('''samtools view %s | awk '{print$3}'>%s '''%(origin_bam+'_hq.bam',origin_bam+'_hq.bam'+'_chr'),shell=True)
-	# c = pd.read_csv(origin_bam+'_hq.bam'+'_chr',header=None)
-	# c.columns=['chr']
-	# c['chr']=c['chr'].astype(str)
-	# d=c.groupby(['chr']).size().reset_index(name='read')
+
+		print "ATAC-seq_Pipeline_START"
+elif rm_cp == 'y':
+	cp_name = raw_input('Enter Chlorophyll name: ')
+
+	subprocess.call('''samtools view %s | awk '{print$3}'>%s '''%(origin_bam,origin_bam+'_chr'),shell=True)
+	a = pd.read_csv(origin_bam+'_chr',header=None)
+	a.columns=['chr']
+	a['chr']=a['chr'].astype(str)
+	b=a.groupby(['chr']).size().reset_index(name='read')
+	b_sum = b['read'].sum().astype(float)
+	cp_name = b[b.chr == cp_name]
+	if cp_name.empty :
+		sys.exit("Chlorophyll name not found.")  
+	else:
+		cp_name = cp_name.values[0][1]
+		rmcp_ratio=(b_sum-cp_name)/b_sum
+		rmcp_ratio = (rmcp_ratio*100)
+		print "Original gene number: %.0f"%(b_sum)
+		print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-cp_name),rmcp_ratio,"%")
+		print"----------------------------------------------------"
+
+		subprocess.call('''samtools view -hq 10 %s| grep -v %s| samtools view -Sb - > %s'''%(origin_bam,cp_name,origin_bam+'_hq.bam'), shell=True)
+
+		print "ATAC-seq_Pipeline_START"
+
+elif rm_cp == 'y' and rm_mt == 'y':
+	mt_name = raw_input('Enter Mitochondria name: ')
+	cp_name = raw_input('Enter Chlorophyll name: ')
+
+	subprocess.call('''samtools view %s | awk '{print$3}'>%s '''%(origin_bam,origin_bam+'_chr'),shell=True)
+	a = pd.read_csv(origin_bam+'_chr',header=None)
+	a.columns=['chr']
+	a['chr']=a['chr'].astype(str)
+	b=a.groupby(['chr']).size().reset_index(name='read')
+	b_sum = b['read'].sum().astype(float)
+	mt_num = b[b.chr == mt_name]
+	cp_name = b[b.chr == cp_name]
+	if mt_num.empty :
+		sys.exit("Mitochondria name not found.") 
+	elif cp_name.empty :
+		sys.exit("Chlorophyll name not found.")  
+	else:
+		mt_num = mt_num.values[0][1]
+		rmmt_ratio=(b_sum-mt_num)/b_sum
+		rmmt_ratio = (rmmt_ratio*100)
+		print "Original gene number: %.0f"%(b_sum)
+		print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-mt_num),rmmt_ratio,"%")
+		print"----------------------------------------------------"
+		cp_name = cp_name.values[0][1]
+		rmcp_ratio=(b_sum-cp_name)/b_sum
+		rmcp_ratio = (rmcp_ratio*100)
+		print "Original gene number: %.0f"%(b_sum)
+		print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-cp_name),rmcp_ratio,"%")
+		print"----------------------------------------------------"
+
+		subprocess.call('''samtools view -hq 10 %s| grep -vE %s| samtools view -Sb - > %s'''%(origin_bam,mt_name|cp_name,origin_bam+'_hq.bam'), shell=True)
 
 		print "ATAC-seq_Pipeline_START"
 
@@ -63,29 +116,6 @@ else :
 
 input_bam=origin_bam+'_hq.bam'
 input_gene=args.input_gene
-
-#calculate mitochondria remove%
-# subprocess.call('samtools view -H %s > %s'%(input_bam,input_bam+'_header.sam'), shell=True)
-# c=pd.read_csv(input_bam+'_header.sam', header=None)
-# c=c[c[0].str.startswith('@SQ')]
-# c=c[0].str.split(':', expand=True)
-# c.columns=['@','chr','head']
-# c['head']=c['head'].astype(int)
-# c.chr=c.chr.str.rstrip('\tLN')
- 
-# subprocess.call('''samtools view %s | awk '{print$3}'>%s '''%(input_bam,input_bam+'_chr'),shell=True)
-# a = pd.read_csv(input_bam+'_chr',header=None)
-# a.columns=['chr']
-# a['chr']=a['chr'].astype(str)
-# b=a.groupby(['chr']).size().reset_index(name='read')
- 
-# mtn=pd.merge(c,b, on='chr')
-# mtn['head']=mtn['head'].astype(int)
-# mtn['ratio']=mtn['read']/mtn['head']
-# mtn['readper']=mtn['read']/mtn['read'].sum()
- 
-# mtn=mtn.sort_values(['ratio'],ascending=False)
-
 
 #clean bam files
 subprocess.call('''samtools index %s'''%(input_bam),shell=True)
