@@ -442,9 +442,14 @@ subprocess.call('''rm *bed6*|rm *3utr.bed|rm *5utr.bed|rm *_start.bed|rm *_cds.b
 
 tend = time.time()#time stop
 
-if rm_mt == 'y' and not mt_num.empty:
-	print "Original gene number: %.0f"%(b_sum)
+if rm_mt == 'y' and mt_num:
+    print "Original gene number: %.0f"%(b_sum)
 	print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-mt_num),rmmt_ratio,"%")	
 	print " "
+elif rm_cp == 'y' and cp_name:
+    print "Original gene number: %.0f"%(b_sum)
+    print "Remain gene number: %.0f ( %.2f%s gene remain)"%((b_sum-cp_name),rmcp_ratio,"%")
+    print " "
+
 
 print "***----------Processing Time: %s seconds ----------***" %(tend-tstart)
